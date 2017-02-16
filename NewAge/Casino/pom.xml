@@ -3,22 +3,28 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>NewAge</groupId>
-	<artifactId>Casino</artifactId>
+	<groupId>newage</groupId>
+	<artifactId>casino</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>Casino</name>
+	<name>casino</name>
 	<url>http://maven.apache.org</url>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.5.0</version>
+			</plugin>
+		</plugins>
+	</build>
 
 	<modules>
-		<module>ServerClient</module>
-		<module>GameService</module>
-		<module>WalletService</module>
-		<module>IntegrationTest</module>
+		<module>server-and-client</module>
+		<module>game-service</module>
+		<module>wallet-service</module>
+		<module>tests</module>
 	</modules>
 </project>
