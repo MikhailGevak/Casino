@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
@@ -35,6 +36,7 @@ public class GsonJerseyProvider implements MessageBodyWriter<Object>, MessageBod
 	public GsonJerseyProvider() {
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeHierarchyAdapter(ServiceException.class, new ServiceExceptionSerializerDeserializer());
+		gsonBuilder.registerTypeHierarchyAdapter(BigDecimal.class, new BigDecimalSerializer());
 		gson = gsonBuilder.create();
 	}
 

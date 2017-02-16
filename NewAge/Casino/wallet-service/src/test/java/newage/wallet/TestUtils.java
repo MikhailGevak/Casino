@@ -15,7 +15,7 @@ public class TestUtils {
 		properties.put(DatabasePropertiesImpl.SERVER_DATABASE_PROPERTY, "jdbc:sqlite::memory:");
 		properties.put(DatabasePropertiesImpl.DATABASE_DRIVER_PROPERTY, "org.sqlite.JDBC");
 		
-		ExtendedGuiceServletContextListener context = new ExtendedGuiceServletContextListener(properties, Server.getModules());
+		ExtendedGuiceServletContextListener context = new ExtendedGuiceServletContextListener(properties, WalletServer.getModules());
 		
 		return context.getInjector();
 	}

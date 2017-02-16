@@ -7,22 +7,18 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import newage.wallet.api.Balance;
 
-//TODO: This strange construction have to be removed. 
-//It's due to parent Balance have to be a class with fields. 
-//Gson can't work with methods. Only with fields :(
 @DatabaseTable(tableName = "balances")
-class BalanceImpl extends Balance {
+class BalanceDBImpl implements Balance {
 	@DatabaseField(id = true, generatedId = false)
 	private Integer playerId;
 
 	@DatabaseField()
 	private BigDecimal amount;
 
-	protected BalanceImpl() {
+	protected BalanceDBImpl() {
 	}
 
-	public BalanceImpl(Integer playerId, BigDecimal amount) {
-		super(playerId, amount);
+	public BalanceDBImpl(Integer playerId, BigDecimal amount) {
 		this.amount = amount;
 		this.playerId = playerId;
 	}

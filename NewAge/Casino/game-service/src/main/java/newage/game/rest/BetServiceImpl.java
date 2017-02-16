@@ -2,6 +2,7 @@ package newage.game.rest;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -14,13 +15,16 @@ import javax.ws.rs.core.MediaType;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import newage.common.exception.ParseAnswerException;
 import newage.common.rest.AbstractService;
 import newage.game.api.Bet;
 import newage.game.api.BetService;
 import newage.game.api.exception.BetServiceException;
 import newage.game.api.exception.PlayerNotFoundException;
+import newage.wallet.api.Balance;
 import newage.wallet.api.WalletService;
 
+@Path("/bet")
 @Singleton
 public class BetServiceImpl extends AbstractService<BetServiceException> implements BetService {
 	private final BetDAO dao;
@@ -39,48 +43,67 @@ public class BetServiceImpl extends AbstractService<BetServiceException> impleme
 	@Path("bet/{player_id}/{game_id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	synchronized public Bet placeBet(@PathParam("player_id") Integer playerId, @PathParam("game_id") Integer gameId,
+	synchronized public Balance placeBet(@PathParam("player_id") Integer playerId, @PathParam("game_id") Integer gameId,
 			BigDecimal amount) throws BetServiceException {
-		try {
-			walletService.withdrawBalance(playerId, amount);
-		} catch (Exception ex2) {
-			throw new BetServiceException(ex2);
-		}
 
-		try {
-			return exceptionHandle(() -> {
-				BetImpl bet = new BetImpl(playerId, gameId, amount);
-				dao.create(bet);
-				return bet;
-			});
-		} catch (Exception ex) {
-			// It have be more effective mechanism...
+		return exceptionHandle(() -> {
+			// It have be more effective mechanism to "rallback transaction"...
 			// But for demo it's ok, I think
+			Balance balance = null;
+
 			try {
-				walletService.depositBalance(playerId, amount);
-			} catch (Exception ex2) {
-				throw new BetServiceException(ex2);
+				balance = walletService.withdrawBalance(playerId, amount);
+			} catch (Exception ex) {
+				throw new BetServiceException(ex);
 			}
 
-			throw new BetServiceException(ex);
-		}
+			try {
+				BetDBImpl bet = new BetDBImpl(playerId, gameId, amount);
+				dao.create(bet);
+			} catch (Exception e) {
+				walletService.depositBalance(playerId, amount);
+				throw new BetServiceException(e);
+			}
+			return balance;
+		});
 	}
 
 	@GET
 	@Path("bets/{player_id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public List<? extends Bet> getBets(@PathParam("player_id") Integer playerId) throws PlayerNotFoundException, BetServiceException {
+	public List<Bet> getBets(@PathParam("player_id") Integer playerId)
+			throws PlayerNotFoundException, BetServiceException {
 		return exceptionHandle(() -> {
-			List<? extends Bet> bets = dao.queryForEq(BetImpl.PLAYER_ID_COLUMN_NAME, playerId);
-			if (bets.isEmpty()) throw new PlayerNotFoundException(playerId);
+			List<Bet> bets = Collections.unmodifiableList(dao.queryForEq(BetDBImpl.PLAYER_ID_COLUMN_NAME, playerId));
+			if (bets.isEmpty())
+				throw new PlayerNotFoundException(playerId);
 			return bets;
 		});
 	}
 
+	@POST
+	@Path("remove/{player_id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Override
+	public Integer removeAllBets(@PathParam("player_id") Integer playerId)
+			throws BetServiceException, ParseAnswerException {
+		return exceptionHandle(() -> {
+			List<Bet> bets = getBets(playerId);
+			int deleted = 0;
+			for (Bet bet : bets) {
+				deleted += dao.deleteById(bet.getId());
+			}
+			return deleted;
+		});
+
+	}
+
 	@Override
 	protected BetServiceException createServiceException(Exception ex) {
-		if (ex instanceof BetServiceException) return (BetServiceException)ex;
+		if (ex instanceof BetServiceException)
+			return (BetServiceException) ex;
 		return new BetServiceException(ex);
 	}
+
 }

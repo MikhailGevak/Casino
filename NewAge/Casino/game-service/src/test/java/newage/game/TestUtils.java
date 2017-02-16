@@ -18,7 +18,7 @@ public class TestUtils {
 		properties.put(DatabasePropertiesImpl.SERVER_DATABASE_PROPERTY, "jdbc:sqlite::memory:");
 		properties.put(DatabasePropertiesImpl.DATABASE_DRIVER_PROPERTY, "org.sqlite.JDBC");
 		
-		Collection<Module> modules = new LinkedList<>(Server.getModules());
+		Collection<Module> modules = new LinkedList<>(GameServer.getModules());
 		modules.add(new MockOtherServiceBinder());
 		
 		ExtendedGuiceServletContextListener context = new ExtendedGuiceServletContextListener(properties, modules);

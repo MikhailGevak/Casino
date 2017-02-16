@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
 
+import newage.common.exception.ParseAnswerException;
 import newage.wallet.TestUtils;
 import newage.wallet.api.Balance;
 import newage.wallet.api.WalletService;
@@ -25,7 +26,7 @@ public class WalletServiceImplTest {
 	}
 
 	@Test
-	public void registerPlayer() throws AlreadyRegisteredPlayerException, WalletException {
+	public void registerPlayer() throws AlreadyRegisteredPlayerException, WalletException, ParseAnswerException {
 		Balance balance = walletService.registerPlayer(13);
 		assertNotNull(balance);
 		assertEquals(BigDecimal.valueOf(0), balance.getAmount());
@@ -33,7 +34,7 @@ public class WalletServiceImplTest {
 	}
 
 	@Test
-	public void depositBalance() throws PlayerNotFoundException, WalletException {
+	public void depositBalance() throws PlayerNotFoundException, WalletException, ParseAnswerException {
 		walletService.registerPlayer(13);
 		Balance balance = walletService.depositBalance(13, BigDecimal.valueOf(50));
 
@@ -44,7 +45,7 @@ public class WalletServiceImplTest {
 
 	@Test
 	public void withdrawBalance()
-			throws PlayerNotFoundException, InsufficientFundsException, WalletException {
+			throws PlayerNotFoundException, InsufficientFundsException, WalletException, ParseAnswerException {
 		walletService.registerPlayer(13);
 		walletService.depositBalance(13, BigDecimal.valueOf(50));
 		Balance balance = walletService.withdrawBalance(13, BigDecimal.valueOf(20));
@@ -55,7 +56,7 @@ public class WalletServiceImplTest {
 	}
 
 	@Test
-	public void getBalance() throws PlayerNotFoundException, WalletException {
+	public void getBalance() throws PlayerNotFoundException, WalletException, ParseAnswerException {
 		walletService.registerPlayer(13);
 		walletService.depositBalance(13, BigDecimal.valueOf(50));
 		Balance balance = walletService.getBalance(13);
@@ -66,7 +67,7 @@ public class WalletServiceImplTest {
 	}
 
 	@Test(expected=PlayerNotFoundException.class)
-	public void removeBalance() throws PlayerNotFoundException, WalletException {
+	public void removeBalance() throws PlayerNotFoundException, WalletException, ParseAnswerException {
 		walletService.registerPlayer(13);
 		Boolean result = walletService.removeBalance(13);
 		assertEquals(true, result);

@@ -7,14 +7,14 @@ import com.j256.ormlite.dao.BaseDaoImpl;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-public class BetDAO extends BaseDaoImpl<BetImpl, Integer> {
+public class BetDAO extends BaseDaoImpl<BetDBImpl, Integer> {
 	@Inject
 	public BetDAO(ConnectionSource connectionSource) throws SQLException {
-		super(connectionSource, BetImpl.class);
+		super(connectionSource, BetDBImpl.class);
 	}
 
 	public void initialPrepareData() throws SQLException {
-		TableUtils.createTableIfNotExists(connectionSource, BetImpl.class);
+		TableUtils.createTableIfNotExists(connectionSource, BetDBImpl.class);
 	}
 
 }

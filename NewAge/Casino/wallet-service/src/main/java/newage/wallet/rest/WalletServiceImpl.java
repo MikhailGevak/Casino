@@ -41,7 +41,7 @@ public class WalletServiceImpl extends AbstractService<WalletException> implemen
 	synchronized public Balance registerPlayer(@PathParam("player_id") Integer playerId) throws WalletException {
 		return exceptionHandle(() -> {
 			checkIfNotExist(playerId);
-			BalanceImpl balance = new BalanceImpl(playerId, BigDecimal.valueOf(0));
+			BalanceDBImpl balance = new BalanceDBImpl(playerId, BigDecimal.valueOf(0));
 			dao.create(balance);
 
 			return balance;
@@ -57,7 +57,7 @@ public class WalletServiceImpl extends AbstractService<WalletException> implemen
 		return exceptionHandle(() -> {
 			checkAmount(amount);
 			Balance balance = getBalance(playerId);
-			BalanceImpl newBalance = new BalanceImpl(playerId, balance.getAmount().add(amount));
+			BalanceDBImpl newBalance = new BalanceDBImpl(playerId, balance.getAmount().add(amount));
 			checkIfNotInsufficientFunds(newBalance);
 			dao.update(newBalance);
 
@@ -74,7 +74,7 @@ public class WalletServiceImpl extends AbstractService<WalletException> implemen
 		return exceptionHandle(() -> {
 			checkAmount(amount);
 			Balance balance = getBalance(playerId);
-			BalanceImpl newBalance = new BalanceImpl(playerId, balance.getAmount().subtract(amount));
+			BalanceDBImpl newBalance = new BalanceDBImpl(playerId, balance.getAmount().subtract(amount));
 			checkIfNotInsufficientFunds(newBalance);
 			dao.update(newBalance);
 

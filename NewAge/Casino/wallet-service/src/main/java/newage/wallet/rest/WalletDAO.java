@@ -9,14 +9,14 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 @Singleton
-public class WalletDAO extends BaseDaoImpl<BalanceImpl, Integer> {
+public class WalletDAO extends BaseDaoImpl<BalanceDBImpl, Integer> {
 	@Inject
 	public WalletDAO(ConnectionSource connectionSource) throws SQLException {
-		super(connectionSource, BalanceImpl.class);
+		super(connectionSource, BalanceDBImpl.class);
 	}
 
 	public void initialPrepareData() throws SQLException {
-		TableUtils.createTableIfNotExists(connectionSource, BalanceImpl.class);
+		TableUtils.createTableIfNotExists(connectionSource, BalanceDBImpl.class);
 	}
 
 }

@@ -8,7 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import newage.game.api.Bet;
 
 @DatabaseTable(tableName = "balances")
-public class BetImpl extends Bet{
+public class BetDBImpl implements Bet{
 	public final static String PLAYER_ID_COLUMN_NAME = "playerId";
 	
 	@DatabaseField(allowGeneratedIdInsert = true, generatedId = true)
@@ -20,12 +20,16 @@ public class BetImpl extends Bet{
 	@DatabaseField
 	private BigDecimal amount;
 	
-	protected BetImpl(){}
+	protected BetDBImpl(){}
 	
-	public BetImpl(Integer playerId, Integer gameId, BigDecimal amount){
+	public BetDBImpl(Integer playerId, Integer gameId, BigDecimal amount){
 		this.playerId = playerId;
 		this.gameId = gameId;
 		this.amount = amount;
+	}
+	
+	public Integer getId() {
+		return id;
 	}
 	
 	public Integer getPlayerId() {

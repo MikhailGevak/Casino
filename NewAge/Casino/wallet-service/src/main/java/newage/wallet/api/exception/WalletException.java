@@ -9,6 +9,10 @@ public class WalletException extends ServiceException {
 		super(message, errorCode);
 	}
 	
+	public WalletException(ServiceException exception) {
+		super(exception);
+	}
+	
 	public WalletException(String message) {
 		super(message);
 	}
