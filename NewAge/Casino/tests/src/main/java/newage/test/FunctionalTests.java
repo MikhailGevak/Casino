@@ -21,7 +21,7 @@ import newage.wallet.client.WalletServiceClient;
 
 import static org.junit.Assert.*;
 
-public class BetFunctionalTests {
+public class FunctionalTests {
 	private static Integer PLAYER_ID = 12345;
 	private static Integer GAME_ID = 456;
 	private WebClient walletWebClient = new WebClient("http://localhost:9999/wallet");
@@ -39,32 +39,6 @@ public class BetFunctionalTests {
 		}
 
 		betService.removeAllBets(PLAYER_ID);
-	}
-
-	@Test
-	public void betSmokeTest() throws WalletException, BetServiceException, ParseAnswerException {
-		walletService.registerPlayer(PLAYER_ID);
-		walletService.depositBalance(PLAYER_ID, BigDecimal.valueOf(100));
-
-		Balance balance1 = betService.placeBet(PLAYER_ID, GAME_ID, BigDecimal.valueOf(50));
-		assertEquals(PLAYER_ID, balance1.getPlayerId());
-		assertEquals(BigDecimal.valueOf(50).stripTrailingZeros(), balance1.getAmount().stripTrailingZeros());
-
-		Balance balance2 = betService.placeBet(PLAYER_ID, GAME_ID, BigDecimal.valueOf(30));
-		assertEquals(PLAYER_ID, balance2.getPlayerId());
-		assertEquals(BigDecimal.valueOf(20).stripTrailingZeros(), balance2.getAmount().stripTrailingZeros());
-
-		List<Bet> bets = betService.getBets(PLAYER_ID);
-		assertEquals(2, bets.size());
-
-		assertEquals(bets.get(0).getPlayerId(), PLAYER_ID);
-		assertEquals(bets.get(0).getGameId(), GAME_ID);
-		assertEquals(bets.get(0).getAmount().stripTrailingZeros(), BigDecimal.valueOf(50).stripTrailingZeros());
-
-		assertEquals(bets.get(1).getPlayerId(), PLAYER_ID);
-		assertEquals(bets.get(1).getGameId(), GAME_ID);
-		assertEquals(bets.get(1).getAmount().stripTrailingZeros(), BigDecimal.valueOf(30).stripTrailingZeros());
-
 	}
 
 	// It's a big Functional test scenario

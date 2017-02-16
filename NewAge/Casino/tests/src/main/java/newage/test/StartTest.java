@@ -7,7 +7,7 @@ public class StartTest {
 	private static JUnitCore junit = new JUnitCore();
 
 	public static void main(String[] args) {
-		runTests(new Class[]{WalletFunctionalTests.class, BetFunctionalTests.class});
+		runTests(new Class[]{WalletFunctionalTests.class, FunctionalTests.class});
 	}
 
 	public static void runTests(Class[] classes) {
