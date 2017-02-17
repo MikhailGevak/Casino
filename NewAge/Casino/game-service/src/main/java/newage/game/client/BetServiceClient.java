@@ -29,12 +29,12 @@ public class BetServiceClient extends AbstractServiceClient implements BetServic
 		this.webClient = webClient;
 	}
 
-	// bet/{player_id}/{game_id}
+	// create/{player_id}/{game_id}
 	@Override
 	public Balance placeBet(Integer playerId, Integer gameId, BigDecimal amount)
 			throws BetServiceException, ParseAnswerException {
 		return handleResponse(BalanceImpl.class, BetServiceException.class, () -> {
-			return webClient.doPostRequest("bet/" + playerId + "/" + gameId, ClientResponse.class, amount);
+			return webClient.doPostRequest("create/" + playerId + "/" + gameId, ClientResponse.class, amount);
 		});
 	}
 
@@ -44,7 +44,7 @@ public class BetServiceClient extends AbstractServiceClient implements BetServic
 			throws PlayerNotFoundException, BetServiceException, ParseAnswerException {
 		List<BetImpl> bets = handleResponse(new GenericType<List<BetImpl>>() {
 		}, BetServiceException.class, () -> {
-			return webClient.doGetRequest("bets/" + playerId, ClientResponse.class);
+			return webClient.doGetRequest("get/" + playerId, ClientResponse.class);
 		});
 
 		return Collections.unmodifiableList(bets);

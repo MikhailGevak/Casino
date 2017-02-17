@@ -40,7 +40,7 @@ public class BetServiceImpl extends AbstractService<BetServiceException> impleme
 	}
 
 	@POST
-	@Path("bet/{player_id}/{game_id}")
+	@Path("create/{player_id}/{game_id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	synchronized public Balance placeBet(@PathParam("player_id") Integer playerId, @PathParam("game_id") Integer gameId,
@@ -69,7 +69,7 @@ public class BetServiceImpl extends AbstractService<BetServiceException> impleme
 	}
 
 	@GET
-	@Path("bets/{player_id}")
+	@Path("get/{player_id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public List<Bet> getBets(@PathParam("player_id") Integer playerId)
