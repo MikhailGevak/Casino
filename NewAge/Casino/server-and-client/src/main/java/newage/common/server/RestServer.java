@@ -1,7 +1,9 @@
 package newage.common.server;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -32,8 +34,14 @@ public class RestServer {
 		appServer.start();
 
 		System.out.println("Server running");
-		System.out.println("Hit return to stop...");
-		System.in.read();
+		System.out.println("Type \"stop\" to stop...");
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		while (true) {
+			String s = br.readLine();
+			if ("stop".equals(s)) break;
+		}
+		
 		System.out.println("Stopping server");
 		appServer.stop();
 		System.out.println("Server stopped");
@@ -53,7 +61,7 @@ public class RestServer {
 		}
 
 		setAdditionProperties(properties);
-		
+
 		return properties;
 	}
 
@@ -61,8 +69,8 @@ public class RestServer {
 		String providersProperty = ServletParameters.SERVLET_PREFIX + "com.sun.jersey.config.property.packages";
 		String providers = properties.getProperty(providersProperty, "");
 
-		providers = "newage.common.server" + (StringUtils.isNotEmpty(providers) ? (", " + providers): "");
-		
+		providers = "newage.common.server" + (StringUtils.isNotEmpty(providers) ? (", " + providers) : "");
+
 		properties.setProperty(providersProperty, providers);
 	}
 
@@ -121,7 +129,7 @@ public class RestServer {
 			this.args.add(arg);
 			return this;
 		}
-		
+
 		public RestServer runServer(Properties defaultProperties) throws Exception {
 			return new RestServer(modules, defaultProperties);
 		}

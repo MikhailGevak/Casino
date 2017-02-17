@@ -34,7 +34,7 @@
 
 				<configuration>
 					<executable>java</executable>
-					<mainClass>newage.game.Server</mainClass>
+					<mainClass>newage.game.GameServer</mainClass>
 				</configuration>
 			</plugin>
 			<plugin>

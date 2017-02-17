@@ -12,6 +12,8 @@ import newage.common.impl.properties.DatabasePropertiesImpl;
 import newage.common.server.ExtendedGuiceServletContextListener;
 
 public class TestUtils {
+	public static Integer PLAYER_ID = 12;
+	
 	public static Injector getTestInjector() throws IOException {
 
 		Properties properties = new Properties();

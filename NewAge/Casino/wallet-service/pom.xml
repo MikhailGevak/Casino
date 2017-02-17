@@ -33,7 +33,7 @@
 
 				<configuration>
 					<executable>java</executable>
-					<mainClass>newage.wallet.Server</mainClass>
+					<mainClass>newage.wallet.WalletServer</mainClass>
 				</configuration>
 			</plugin>
 

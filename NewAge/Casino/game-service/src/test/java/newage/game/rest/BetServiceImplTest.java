@@ -27,16 +27,16 @@ public class BetServiceImplTest {
 
 	@Test
 	public void placeBetTest() throws BetServiceException, ParseAnswerException {
-		Balance balance = betService.placeBet(12, 11, BigDecimal.valueOf(100));
+		Balance balance = betService.placeBet(TestUtils.PLAYER_ID, 11, BigDecimal.valueOf(100));
 		assertNotNull(balance);
 		assertEquals(12, balance.getPlayerId().intValue());
 	}
 
 	public void showBetsTest() throws PlayerNotFoundException, BetServiceException, ParseAnswerException {
-		betService.placeBet(12, 11, BigDecimal.valueOf(100));
-		betService.placeBet(12, 114, BigDecimal.valueOf(100));
+		betService.placeBet(TestUtils.PLAYER_ID, 11, BigDecimal.valueOf(100));
+		betService.placeBet(TestUtils.PLAYER_ID, 114, BigDecimal.valueOf(100));
 		
-		List<? extends Bet> bets = betService.getBets(12);
+		List<? extends Bet> bets = betService.getBets(TestUtils.PLAYER_ID);
 		assertNotNull(bets);
 		assertEquals(2, bets.size());
 	}
