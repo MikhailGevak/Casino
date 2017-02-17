@@ -128,6 +128,8 @@ mvn exec:java -Dexec.args="src/main/resources/wallet.properties"
 
 ```
 #Run Services
+Before running service you have run *mvn install* command to instal modules to your local maven repository. 
+All services are in "bin" folder of the projects. All log file is in logs folder.
 ##Wallet Service
 ###Run Service
 ```
@@ -147,7 +149,9 @@ mvn exec:java -Dexec.args="src/main/resources/wallet.properties"
 ./stop-game.sh
 ```
 ##Simple Casino
-3. Scripts and guides how to start the whole system
+```
+simple-casino-run.sh <wallet_port> <game1_port> <game2_port>
+```
 
 4. Simple Casino should be started as
 
