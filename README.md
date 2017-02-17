@@ -114,7 +114,19 @@ You can override it using VM argumnts (-D...)
 
 ##TESTS
 Module contains functional tests.
-2. Brief guide how to build services
+
+#BUIILD SERVICE
+You can build service using maven (mvn install). Also you can run each service from its projects folder.
+wallet-service:
+```
+mvn exec:java -Dexec.args="src/main/resources/wallet.properties"
+
+```
+game-service:
+```
+mvn exec:java -Dexec.args="src/main/resources/wallet.properties"
+
+```
 
 3. Scripts and guides how to start the whole system
 
