@@ -14,7 +14,6 @@ import newage.game.api.exception.BetServiceException;
 import newage.game.client.BetServiceClient;
 import newage.wallet.api.Balance;
 import newage.wallet.api.WalletService;
-import newage.wallet.api.exception.InsufficientFundsException;
 import newage.wallet.api.exception.PlayerNotFoundException;
 import newage.wallet.api.exception.WalletException;
 import newage.wallet.client.WalletServiceClient;
@@ -24,8 +23,8 @@ import static org.junit.Assert.*;
 public class FunctionalTests {
 	private static Integer PLAYER_ID = 12345;
 	private static Integer GAME_ID = 456;
-	private WebClient walletWebClient = new WebClient("http://localhost:9999/wallet");
-	private WebClient betWebClient = new WebClient("http://localhost:9998/bet");
+	private WebClient walletWebClient = new WebClient(ServerHosts.WALLET_HOST);
+	private WebClient betWebClient = new WebClient(ServerHosts.BET_HOST);
 
 	private WalletService walletService = new WalletServiceClient(walletWebClient);
 	private BetService betService = new BetServiceClient(betWebClient);
