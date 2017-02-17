@@ -6,14 +6,14 @@ Module contains the a common functionality and used by *wallet-service* and *gam
 ##WALLET-SERVER
 Module contains a *Wallet REST Service*. 
 ###Main API
-Function: Register a wallet (create balance)
+####Function: Register a wallet (create balance)
 ```
-Path: **/wallet/register/{player_id}**
+Path: /wallet/register/{player_id}
 Type: POST
 Body: -
 Result: JSON wich contains created balance
 ```
-Function: Deposit
+####Function: Deposit
 ```
 Path: /wallet/deposit/{player_id}
 Type: POST
@@ -21,7 +21,7 @@ Body: Amount of deposit as a plain/text
 Result: JSON wich contains updated balance
 Response code: 200
 ```
-Function: Withdraw
+####Function: Withdraw
 ```
 Path: /wallet/withdraw/{player_id}
 Type: POST
@@ -29,14 +29,14 @@ Body: Amount of withdraw as a plain/text
 Result: JSON wich contains updated balance
 Response code: 200
 ```
-Function: Remove Balance 
+####Function: Remove Balance
 ```
-Path: **/wallet/balance/{player_id}**
+Path: /wallet/balance/{player_id}
 Type: GET
 Result: JSON wich contains balance of player with id {palyer_id}
 Response code: 200
 ```
-Function: Delete Balance
+####Function: Delete Balance
 ```
 Path: **/wallet/remove/{player_id}**
 Type: POST
@@ -44,7 +44,7 @@ Body: -
 Result: true
 Response code: 200
 ```
-###Exceptions
+####Exceptions
 If error is occured it is returned as JSON with suitable http-status.
 For example:
 ```
@@ -70,19 +70,22 @@ You can override it using VM argumnts (-D...)
 ##GAME_SERVICE
 Module contains a *Game REST Service*. 
 ###API
-Function: Place Bet <p>
-Path: **bet/create/{player_id}/{game_id}**<p>
-Type: POST<p>
-Body: Amount of bet as a plain/text<p>
-Result: JSON wich contains updated balance<p>
-Response code: 200<p>
-<p>
-Function: Show Bets<p>
-Path: **bet/get/{player_id}**<p>
-Type: GET<p>
-Result: JSON wich contains a list of bets for player with id {player_id}<p>
-Response code: 200<p>
-###Exceptions
+####Function: Place Bet
+```
+Path: bet/create/{player_id}/{game_id}
+Type: POST
+Body: Amount of bet as a plain/text
+Result: JSON wich contains updated balance
+Response code: 200
+```
+####Function: Show Bets
+```
+Path: bet/get/{player_id}
+Type: GET
+Result: JSON wich contains a list of bets for player with id {player_id}
+Response code: 200
+```
+####Exceptions
 If error is occured it is returned as JSON with suitable http-status.
 For example:
 ```
