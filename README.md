@@ -127,7 +127,26 @@ game-service:
 mvn exec:java -Dexec.args="src/main/resources/wallet.properties"
 
 ```
-
+#Run Services
+##Wallet Service
+###Run Service
+```
+./run-wallet.sh <port_number>
+```
+###Stop Service
+```
+./stop-wallet.sh
+```
+##Game Service
+###Run Service
+```
+./run-game.sh <port_number>
+```
+###Stop Service
+```
+./stop-game.sh
+```
+##Simple Casino
 3. Scripts and guides how to start the whole system
 
 4. Simple Casino should be started as
