@@ -6,38 +6,44 @@ Module contains the a common functionality and used by *wallet-service* and *gam
 ##WALLET-SERVER
 Module contains a *Wallet REST Service*. 
 ###Main API
-Function: Register a wallet (create balance)<p>
-Path: **/wallet/register/{player_id}**<p>
-Type: POST<p>
+Function: Register a wallet (create balance)
+```
+Path: **/wallet/register/{player_id}**
+Type: POST
 Body: -
-Result: JSON wich contains created balance<p>
-<p>
-Function: Deposit <p>
-Path: **/wallet/deposit/{player_id}**<p>
-Type: POST<p>
-Body: Amount of deposit as a plain/text<p>
-Result: JSON wich contains updated balance<p>
-Response code: 200<p>
-<p>
-Function: Withdraw <p>
-Path: **/wallet/withdraw/{player_id}**<p>
-Type: POST<p>
-Body: Amount of withdraw as a plain/text<p>
-Result: JSON wich contains updated balance<p>
-Response code: 200<p>
-<p>
-Function: Remove Balance <p>
-Path: **/wallet/balance/{player_id}**<p>
-Type: GET<p>
-Result: JSON wich contains balance of player with id {palyer_id}<p>
-Response code: 200<p>
-<p>
-Function: Delete Balance<p>
-Path: **/wallet/remove/{player_id}**<p>
-Type: POST<p>
+Result: JSON wich contains created balance
+```
+Function: Deposit
+```
+Path: /wallet/deposit/{player_id}
+Type: POST
+Body: Amount of deposit as a plain/text
+Result: JSON wich contains updated balance
+Response code: 200
+```
+Function: Withdraw
+```
+Path: /wallet/withdraw/{player_id}
+Type: POST
+Body: Amount of withdraw as a plain/text
+Result: JSON wich contains updated balance
+Response code: 200
+```
+Function: Remove Balance 
+```
+Path: **/wallet/balance/{player_id}**
+Type: GET
+Result: JSON wich contains balance of player with id {palyer_id}
+Response code: 200
+```
+Function: Delete Balance
+```
+Path: **/wallet/remove/{player_id}**
+Type: POST
 Body: -
-Result: true <p>
-Response code: 200<p>
+Result: true
+Response code: 200
+```
 ###Exceptions
 If error is occured it is returned as JSON with suitable http-status.
 For example:
