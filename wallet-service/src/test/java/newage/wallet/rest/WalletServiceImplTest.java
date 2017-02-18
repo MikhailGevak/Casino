@@ -18,16 +18,16 @@ import newage.wallet.api.exception.WalletException;
 import static org.junit.Assert.*;
 
 public class WalletServiceImplTest {
-	private WalletService walletServiceClient;
+	private WalletService walletService;
 
 	@Before
 	public void before() throws IOException {
-		walletServiceClient = TestUtils.getTestInjector().getInstance(WalletService.class);
+		walletService = TestUtils.getTestInjector().getInstance(WalletService.class);
 	}
 
 	@Test
 	public void registerPlayer() throws AlreadyRegisteredPlayerException, WalletException, ParseAnswerException {
-		Balance balance = walletServiceClient.registerPlayer(13);
+		Balance balance = walletService.registerPlayer(13);
 		assertNotNull(balance);
 		assertEquals(BigDecimal.valueOf(0), balance.getAmount());
 		assertEquals(13, balance.getPlayerId().intValue());
@@ -35,8 +35,8 @@ public class WalletServiceImplTest {
 
 	@Test
 	public void depositBalance() throws WalletPlayerNotFoundException, WalletException, ParseAnswerException {
-		walletServiceClient.registerPlayer(13);
-		Balance balance = walletServiceClient.depositBalance(13, BigDecimal.valueOf(50));
+		walletService.registerPlayer(13);
+		Balance balance = walletService.depositBalance(13, BigDecimal.valueOf(50));
 
 		assertNotNull(balance);
 		assertEquals(BigDecimal.valueOf(50), balance.getAmount());
@@ -46,9 +46,9 @@ public class WalletServiceImplTest {
 	@Test
 	public void withdrawBalance()
 			throws WalletPlayerNotFoundException, InsufficientFundsException, WalletException, ParseAnswerException {
-		walletServiceClient.registerPlayer(13);
-		walletServiceClient.depositBalance(13, BigDecimal.valueOf(50));
-		Balance balance = walletServiceClient.withdrawBalance(13, BigDecimal.valueOf(20));
+		walletService.registerPlayer(13);
+		walletService.depositBalance(13, BigDecimal.valueOf(50));
+		Balance balance = walletService.withdrawBalance(13, BigDecimal.valueOf(20));
 
 		assertNotNull(balance);
 		assertEquals(BigDecimal.valueOf(30), balance.getAmount());
@@ -57,9 +57,9 @@ public class WalletServiceImplTest {
 
 	@Test
 	public void getBalance() throws WalletPlayerNotFoundException, WalletException, ParseAnswerException {
-		walletServiceClient.registerPlayer(13);
-		walletServiceClient.depositBalance(13, BigDecimal.valueOf(50));
-		Balance balance = walletServiceClient.getBalance(13);
+		walletService.registerPlayer(13);
+		walletService.depositBalance(13, BigDecimal.valueOf(50));
+		Balance balance = walletService.getBalance(13);
 
 		assertNotNull(balance);
 		assertEquals(BigDecimal.valueOf(50), balance.getAmount());
@@ -68,9 +68,9 @@ public class WalletServiceImplTest {
 
 	@Test(expected=WalletPlayerNotFoundException.class)
 	public void removeBalance() throws WalletPlayerNotFoundException, WalletException, ParseAnswerException {
-		walletServiceClient.registerPlayer(13);
-		Boolean result = walletServiceClient.removeBalance(13);
+		walletService.registerPlayer(13);
+		Boolean result = walletService.removeBalance(13);
 		assertEquals(true, result);
-		walletServiceClient.getBalance(13);
+		walletService.getBalance(13);
 	}
 }
