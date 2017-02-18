@@ -35,14 +35,14 @@ public class WalletServiceClient extends AbstractServiceClient implements Wallet
 	@Override
 	public Balance registerPlayer(Integer playerId) throws AlreadyRegisteredPlayerException, WalletException, ParseAnswerException {
 		return handleResponse(BalanceImpl.class, WalletException.class, () -> {
-			return webClient.doPostRequest("register/" + playerId, ClientResponse.class, null);
+			return webClient.doPostRequest("wallet/register/" + playerId, ClientResponse.class, null);
 		});
 	}
 
 	@Override
 	public Balance depositBalance(Integer playerId, BigDecimal amount) throws PlayerNotFoundException, WalletException, ParseAnswerException {
 		return handleResponse(BalanceImpl.class, WalletException.class, () -> {
-			return webClient.doPostRequest("deposit/" + playerId, ClientResponse.class, amount);
+			return webClient.doPostRequest("wallet/deposit/" + playerId, ClientResponse.class, amount);
 		});
 	}
 
@@ -50,21 +50,21 @@ public class WalletServiceClient extends AbstractServiceClient implements Wallet
 	public Balance withdrawBalance(Integer playerId, BigDecimal amount)
 			throws PlayerNotFoundException, InsufficientFundsException, WalletException, ParseAnswerException {
 		return handleResponse(BalanceImpl.class, WalletException.class, () -> {
-			return webClient.doPostRequest("withdraw/" + playerId, ClientResponse.class, amount);
+			return webClient.doPostRequest("wallet/withdraw/" + playerId, ClientResponse.class, amount);
 		});
 	}
 
 	@Override
 	public Balance getBalance(Integer playerId) throws PlayerNotFoundException, WalletException, ParseAnswerException {
 		return handleResponse(BalanceImpl.class, WalletException.class, () -> {
-			return webClient.doGetRequest("balance/" + playerId, ClientResponse.class);
+			return webClient.doGetRequest("wallet/balance/" + playerId, ClientResponse.class);
 		});
 	}
 
 	@Override
 	public Boolean removeBalance(Integer playerId) throws PlayerNotFoundException, WalletException, ParseAnswerException {
 		return handleResponse(Boolean.class, WalletException.class, () -> {
-			return webClient.doPostRequest("remove/" + playerId, ClientResponse.class, null);
+			return webClient.doPostRequest("wallet/remove/" + playerId, ClientResponse.class, null);
 		});
 	}
 }

@@ -9,10 +9,11 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.GenericType;
 
 import newage.common.exception.ParseAnswerException;
+import newage.common.exception.ServiceException;
 
 public abstract class AbstractServiceClient {
 
-	protected <T, E extends Throwable> T handleResponse(Class<T> resultClass, Class<E> exceptionClass,
+	protected <T, E extends ServiceException> T handleResponse(Class<T> resultClass, Class<E> exceptionClass,
 			Supplier<ClientResponse> function) throws E, ParseAnswerException {
 		return handleResponse(response -> response.getEntity(resultClass), exceptionClass, function);
 	}

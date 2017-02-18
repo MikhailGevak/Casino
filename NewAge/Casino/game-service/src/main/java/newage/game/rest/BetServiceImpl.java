@@ -28,14 +28,14 @@ import newage.wallet.api.WalletService;
 @Singleton
 public class BetServiceImpl extends AbstractService<BetServiceException> implements BetService {
 	private final BetDAO dao;
-	WalletService walletService;// It's a special implementation of
+	WalletService walletServiceClient;// It's a special implementation of
 								// WalletService which has the api and works
 								// with Wallet's microservice using web client
 
 	@Inject
-	public BetServiceImpl(BetDAO dao, WalletService walletService) throws SQLException {
+	public BetServiceImpl(BetDAO dao, WalletService walletServiceClient) throws SQLException {
 		this.dao = dao;
-		this.walletService = walletService;
+		this.walletServiceClient = walletServiceClient;
 		dao.initialPrepareData();
 	}
 
@@ -52,7 +52,7 @@ public class BetServiceImpl extends AbstractService<BetServiceException> impleme
 			Balance balance = null;
 
 			try {
-				balance = walletService.withdrawBalance(playerId, amount);
+				balance = walletServiceClient.withdrawBalance(playerId, amount);
 			} catch (Exception ex) {
 				throw new BetServiceException(ex);
 			}
@@ -61,7 +61,7 @@ public class BetServiceImpl extends AbstractService<BetServiceException> impleme
 				BetDBImpl bet = new BetDBImpl(playerId, gameId, amount);
 				dao.create(bet);
 			} catch (Exception e) {
-				walletService.depositBalance(playerId, amount);
+				walletServiceClient.depositBalance(playerId, amount);
 				throw new BetServiceException(e);
 			}
 			return balance;

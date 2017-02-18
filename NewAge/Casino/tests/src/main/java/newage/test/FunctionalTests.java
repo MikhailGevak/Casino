@@ -20,58 +20,75 @@ import newage.wallet.client.WalletServiceClient;
 
 import static org.junit.Assert.*;
 
-public class FunctionalTests {
+public class FunctionalTests extends AbstractTest{
 	private static Integer PLAYER_ID = 12345;
 	private static Integer GAME_ID = 456;
 	private WebClient walletWebClient = new WebClient(ServerHosts.WALLET_HOST);
 	private WebClient betWebClient = new WebClient(ServerHosts.BET_HOST);
 
-	private WalletService walletService = new WalletServiceClient(walletWebClient);
-	private BetService betService = new BetServiceClient(betWebClient);
+	private WalletService walletServiceClient = new WalletServiceClient(walletWebClient);
+	private BetService betServiceClient = new BetServiceClient(betWebClient);
 
 	@Before
 	public void before() throws WalletException, ParseAnswerException, BetServiceException {
 		try {
-			walletService.removeBalance(PLAYER_ID);
+			walletServiceClient.removeBalance(PLAYER_ID);
 		} catch (PlayerNotFoundException ex) {
 			// It's OK
 		}
 
-		betService.removeAllBets(PLAYER_ID);
+		betServiceClient.removeAllBets(PLAYER_ID);
 	}
 
 	// It's a big Functional test scenario
 	@Test
 	public void complexTest() throws WalletException, BetServiceException, ParseAnswerException {
-		Balance balance = walletService.registerPlayer(PLAYER_ID);
+		
+		printlnGreen("Register player...");
+		Balance balance = walletServiceClient.registerPlayer(PLAYER_ID);
 		assertEquals(PLAYER_ID, balance.getPlayerId());
 		assertEquals(BigDecimal.valueOf(0).stripTrailingZeros(), balance.getAmount().stripTrailingZeros());
-
-		balance = walletService.depositBalance(PLAYER_ID, BigDecimal.valueOf(100));
+		printlnGreen("Done!");
+		
+		printlnGreen("Deposit balance...");
+		balance = walletServiceClient.depositBalance(PLAYER_ID, BigDecimal.valueOf(100));
 		assertEquals(PLAYER_ID, balance.getPlayerId());
 		assertEquals(BigDecimal.valueOf(100).stripTrailingZeros(), balance.getAmount().stripTrailingZeros());
-
-		balance = betService.placeBet(PLAYER_ID, GAME_ID, BigDecimal.valueOf(70));
+		printlnGreen("Done!");
+		
+		printlnGreen("Place bet...");
+		balance = betServiceClient.placeBet(PLAYER_ID, GAME_ID, BigDecimal.valueOf(70));
 		assertEquals(PLAYER_ID, balance.getPlayerId());
 		assertEquals(BigDecimal.valueOf(30).stripTrailingZeros(), balance.getAmount().stripTrailingZeros());
-
+		printlnGreen("Done!");
+		
 		try {
-			betService.placeBet(PLAYER_ID, GAME_ID, BigDecimal.valueOf(40));
+			printlnGreen("Place bet for insufficient funds...");
+			betServiceClient.placeBet(PLAYER_ID, GAME_ID, BigDecimal.valueOf(40));
 		} catch (BetServiceException ex) {
 			ex.getMessage().equals("Insufficient funds for operation (playerId:" + PLAYER_ID + ")");
+			printlnGreen("Done!");
 		}
 
-		balance = walletService.getBalance(PLAYER_ID);
+		printlnGreen("Get balance...");
+		balance = walletServiceClient.getBalance(PLAYER_ID);
 		assertEquals(PLAYER_ID, balance.getPlayerId());
 		assertEquals(BigDecimal.valueOf(30).stripTrailingZeros(), balance.getAmount().stripTrailingZeros());
-
-		List<Bet> bets = betService.getBets(PLAYER_ID);
+		printlnGreen("Done!");
+		
+		printlnGreen("Get bets...");
+		List<Bet> bets = betServiceClient.getBets(PLAYER_ID);
 		assertEquals(1, bets.size());
 		assertEquals(BigDecimal.valueOf(70).stripTrailingZeros(), bets.get(0).getAmount().stripTrailingZeros());
 		assertEquals(PLAYER_ID, bets.get(0).getPlayerId());
 		assertEquals(GAME_ID, bets.get(0).getGameId());
-
+		printlnGreen("Done!");
+		
+		printlnGreen("Get balance...");
 		assertEquals(PLAYER_ID, balance.getPlayerId());
 		assertEquals(BigDecimal.valueOf(30).stripTrailingZeros(), balance.getAmount().stripTrailingZeros());
+		printlnGreen("Done!");
 	}
+	
+	
 }

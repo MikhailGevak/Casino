@@ -10,7 +10,7 @@ public class StartTest {
 		runTests(new Class[]{WalletFunctionalTests.class, FunctionalTests.class});
 	}
 
-	public static void runTests(Class[] classes) {
+	public static void runTests(Class<?>[] classes) {
 		for (int i = 0; i < classes.length; i++) {
 			System.out.println("Running " + classes[i].getName() + "...");
 			Result result = junit.run(classes[i]);
