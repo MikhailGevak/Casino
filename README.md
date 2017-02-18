@@ -180,7 +180,7 @@ cd bin
 ```
 ./func-tests.sh http://localhost:9999 http://localhost:9997
 ```
-6. Stop Simple Casinop
+6. Stop Simple Casino
 ```
 ./stop-simple-casino.sh
 ```
