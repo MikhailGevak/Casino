@@ -43,7 +43,7 @@ public class BetServiceImpl extends AbstractService<BetServiceException> impleme
 	@Path("create/{player_id}/{game_id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	synchronized public Balance placeBet(@PathParam("player_id") Integer playerId, @PathParam("game_id") Integer gameId,
+	public synchronized  Balance placeBet(@PathParam("player_id") Integer playerId, @PathParam("game_id") Integer gameId,
 			BigDecimal amount) throws BetServiceException {
 
 		return exceptionHandle(() -> {
@@ -73,7 +73,7 @@ public class BetServiceImpl extends AbstractService<BetServiceException> impleme
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public List<Bet> getBets(@PathParam("player_id") Integer playerId)
-			throws GamePlayerNotFoundException, BetServiceException {
+			throws BetServiceException {
 		return exceptionHandle(() -> {
 			List<Bet> bets = Collections.unmodifiableList(dao.queryForEq(BetDBImpl.PLAYER_ID_COLUMN_NAME, playerId));
 			if (bets.isEmpty())
@@ -86,7 +86,7 @@ public class BetServiceImpl extends AbstractService<BetServiceException> impleme
 	@Path("remove/{player_id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public Integer removeAllBets(@PathParam("player_id") Integer playerId)
+	public synchronized Integer removeAllBets(@PathParam("player_id") Integer playerId)
 			throws BetServiceException, ParseAnswerException {
 		return exceptionHandle(() -> {
 			List<Bet> bets = getBets(playerId);

@@ -38,7 +38,7 @@ public class WalletServiceImpl extends AbstractService<WalletException> implemen
 	@Path("register/{player_id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	synchronized public Balance registerPlayer(@PathParam("player_id") Integer playerId) throws WalletException {
+	public synchronized Balance registerPlayer(@PathParam("player_id") Integer playerId) throws WalletException {
 		return exceptionHandle(() -> {
 			checkIfNotExist(playerId);
 			BalanceDBImpl balance = new BalanceDBImpl(playerId, BigDecimal.valueOf(0));
@@ -52,8 +52,8 @@ public class WalletServiceImpl extends AbstractService<WalletException> implemen
 	@Path("deposit/{player_id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	synchronized public Balance depositBalance(@PathParam("player_id") Integer playerId, BigDecimal amount)
-			throws WalletPlayerNotFoundException, IncorrectAmountValue, WalletException {
+	public synchronized Balance depositBalance(@PathParam("player_id") Integer playerId, BigDecimal amount)
+			throws WalletException {
 		return exceptionHandle(() -> {
 			checkAmount(amount);
 			Balance balance = getBalance(playerId);
@@ -69,8 +69,8 @@ public class WalletServiceImpl extends AbstractService<WalletException> implemen
 	@Path("withdraw/{player_id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	synchronized public Balance withdrawBalance(@PathParam("player_id") Integer playerId, BigDecimal amount)
-			throws WalletPlayerNotFoundException, InsufficientFundsException, IncorrectAmountValue, WalletException {
+	public synchronized Balance withdrawBalance(@PathParam("player_id") Integer playerId, BigDecimal amount)
+			throws WalletException {
 		return exceptionHandle(() -> {
 			checkAmount(amount);
 			Balance balance = getBalance(playerId);
@@ -87,7 +87,7 @@ public class WalletServiceImpl extends AbstractService<WalletException> implemen
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Balance getBalance(@PathParam("player_id") Integer playerId)
-			throws WalletPlayerNotFoundException, WalletException {
+			throws WalletException {
 		return exceptionHandle(() -> {
 			checkIfExist(playerId);
 			return dao.queryForId(playerId);
@@ -98,11 +98,11 @@ public class WalletServiceImpl extends AbstractService<WalletException> implemen
 	@Path("remove/{player_id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public Boolean removeBalance(@PathParam("player_id") Integer playerId)
-			throws WalletPlayerNotFoundException, WalletException {
+	public synchronized Boolean removeBalance(@PathParam("player_id") Integer playerId)
+			throws WalletException {
 		return exceptionHandle(() -> {
 			checkIfExist(playerId);
-			return (dao.deleteById(playerId) > 0);
+			return dao.deleteById(playerId) > 0;
 		});
 	}
 
@@ -126,14 +126,11 @@ public class WalletServiceImpl extends AbstractService<WalletException> implemen
 			throw new IncorrectAmountValue("Amount must be greater than zero (" + amount + ")");
 	}
 
-	private static @FunctionalInterface interface ServiceFunction<T> {
-		T doFunction() throws WalletException, SQLException;
-	}
-
 	@Override
-	protected WalletException createServiceException(Exception ex){
-		if (ex instanceof WalletException) return (WalletException)ex;
-		
+	protected WalletException createServiceException(Exception ex) {
+		if (ex instanceof WalletException)
+			return (WalletException) ex;
+
 		return new WalletException(ex);
 	}
 }

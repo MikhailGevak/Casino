@@ -3,7 +3,7 @@ package newage.common.rest;
 import newage.common.exception.ServiceException;
 
 public abstract class AbstractService<E extends ServiceException> {
-	abstract protected E createServiceException(Exception ex);
+	protected abstract E createServiceException(Exception ex);
 
 	protected <T> T exceptionHandle(ServiceFunction<T> serviceFunction) throws E {
 		try {

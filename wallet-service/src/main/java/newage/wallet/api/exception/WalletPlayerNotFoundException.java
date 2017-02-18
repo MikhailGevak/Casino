@@ -3,6 +3,7 @@ package newage.wallet.api.exception;
 import org.eclipse.jetty.http.HttpStatus;
 
 public class WalletPlayerNotFoundException extends WalletException {
+	private static final long serialVersionUID = 1L;
 
 	protected WalletPlayerNotFoundException(String message, Integer errorCode) {
 		super(message, errorCode);
@@ -21,7 +22,4 @@ public class WalletPlayerNotFoundException extends WalletException {
 	public int getErrorUniqueCode(){
 		return 140;
 	}
-	
-	private static final long serialVersionUID = 1L;
-
 }
