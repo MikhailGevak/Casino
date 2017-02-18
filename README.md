@@ -128,9 +128,7 @@ mvn exec:java -Dexec.args="src/main/resources/wallet.properties"
 
 ```
 #Run Services
-```diff
-+ Before running service you have run *mvn install* command from the root project folder to instal modules to your local maven repository.
-```
+**Before running service you have run *mvn install* command from the root project folder to instal modules to your local maven repository.**
 All services are in "bin" folder of the projects. All log file is in logs folder.
 ##Wallet Service
 ###Run Wallet Service
@@ -152,10 +150,33 @@ All services are in "bin" folder of the projects. All log file is in logs folder
 ```
 ##Simple Casino
 ```
-simple-casino-run.sh <wallet_port> <game1_port> <game2_port>
+run-simple-casino.sh <wallet_port> <game1_port> <game2_port>
 ```
 #Run Function Tests
 Functional test are in "tests" module. To run functional tests you have to run 
 ```
 ./func-tests.sh <wallet_host> <game_host>
+```
+[Functional tests example](https://github.com/MikhailGevak/Casino/blob/master/NewAge/Casino/tests/src/main/java/newage/test/FunctionalTests.java)
+#QUICK RUN
+1. Go to project root directory 
+2. Install packages
+```
+mvn install
+```
+2. Go To *bin* Folder
+```
+cd bin
+```
+3. Run Simple Casino
+```
+./run-simple-casino.sh 9999 9998 9997
+```
+4. Run Functional Tests
+```
+./func-tests.sh http://localhost:9999 http://localhost:9998
+```
+5. Stop Simple Casinop
+```
+./stop-simple-casino.sh
 ```
