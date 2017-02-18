@@ -131,20 +131,20 @@ mvn exec:java -Dexec.args="src/main/resources/wallet.properties"
 Before running service you have run *mvn install* command to instal modules to your local maven repository. 
 All services are in "bin" folder of the projects. All log file is in logs folder.
 ##Wallet Service
-###Run Service
+###Run Wallet Service
 ```
 ./run-wallet.sh <port_number>
 ```
-###Stop Service
+###Stop Wallet Service
 ```
 ./stop-wallet.sh
 ```
 ##Game Service
-###Run Service
+###Run Game Service
 ```
-./run-game.sh <port_number>
+./run-game.sh <service_port_number> <wallet_host>
 ```
-###Stop Service
+###Stop Game Service
 ```
 ./stop-game.sh
 ```
@@ -152,13 +152,8 @@ All services are in "bin" folder of the projects. All log file is in logs folder
 ```
 simple-casino-run.sh <wallet_port> <game1_port> <game2_port>
 ```
-
-4. Simple Casino should be started as
-
-◦ One instance of Wallet Service
-
-◦ Two instances of Game Service
-
-5. Source code for functional test scenario
-
-6. Brief guide how to execute functional test scenario against working system
+#Run Function Tests
+Functional test are in "tests" module. To run functional tests you have to run 
+```
+./func-tests.sh <wallet_host> <game_host>
+```
