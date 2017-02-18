@@ -168,15 +168,19 @@ mvn install
 ```
 cd bin
 ```
-3. Run Simple Casino
+3. Run Simple Casino (Wallet Service on port 9999, Game Service 1 on port 9998 and Game Service 2 on port 9997)
 ```
 ./run-simple-casino.sh 9999 9998 9997
 ```
-4. Run Functional Tests
+4. Run Functional Tests for Wallet Service and Game Service 1
 ```
 ./func-tests.sh http://localhost:9999 http://localhost:9998
 ```
-5. Stop Simple Casinop
+5. Run Functional Tests for Wallet Service and Game Service 2
+```
+./func-tests.sh http://localhost:9999 http://localhost:9997
+```
+6. Stop Simple Casinop
 ```
 ./stop-simple-casino.sh
 ```
